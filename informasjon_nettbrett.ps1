@@ -10,8 +10,8 @@ function findInfo {
     Disable-netadapter -Name Wi-Fi -Confirm:$False
 }
 Write-Host "Adding printer..."
-Add-printerport -name "KonicaMinolta 2.etg" -printerhostaddress "172.19.20.21" 
+Add-printerport -name "KonicaMinolta PRINTER" -printerhostaddress "IP_ADRESSE" 
 add-printerdriver -Name "KONICA MINOLTA PS Color Laser Class Driver"
-add-printer -name "Konica Minolta 2.etg" -port "KonicaMinolta 2.etg" -drivername "KONICA MINOLTA PS Color Laser Class Driver"
+add-printer -name "Konica Minolta 2.etg" -port "KonicaMinolta PRINTER" -drivername "KONICA MINOLTA PS Color Laser Class Driver"
 Write-host "Getting and printing information..."
 findInfo
