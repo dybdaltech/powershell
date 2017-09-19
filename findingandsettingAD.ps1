@@ -1,4 +1,8 @@
-#Create a random password!
+#Import modules used:
+cls
+Import-Module ActiveDirectory
+Write-Host "Imported modules..." -ForegroundColor Cyan
+#Create a random password:
 function createPassword () {
     $store = Get-Random -Minimum 1000 -Maximum 9999
     $pass = "NewefwergrgPauilul8iord" + $store.ToString()
@@ -25,8 +29,11 @@ function find-aduser ( [string]$firstName, [string]$lastName ) {
             for( $i=0; $i -lt $aduser.length ) {
                 Write-Host "                                       "
                 Write-Host "-------------------$i---------------------------------" -ForegroundColor Magenta
-                write-host $aduser[$i].DistuingishedName
+                Write-Host ""
+                write-host $aduser[$i].DistinguishedName
+                Write-Host ""
                 Write-Host $aduser[$i].Name
+                Write-Host ""
                 write-Host $aduser[$i].SAMAccountName
                 Write-Host "_____________________________________________________" -ForegroundColor Gray
                 $i++
@@ -36,17 +43,20 @@ function find-aduser ( [string]$firstName, [string]$lastName ) {
             if( $choice -gt $aduser.length ) {
                 Write-Host "Number greater than array length, please choose a number between 0 and " $aduser.length
                 return
+            } else {
+                Write-Host "Is this correct? " -ForegroundColor Red
+                Write-Host $aduser[$choice]
+                $secondChoice = Read-Host -Prompt "Yes or No"
+                if( $secondChoice -like "*y*") {
+                    return $aduser[$choice]
+                }
+                else {
+                    Write-Host "Wrong user selected.. Throwing Error" -ForegroundColor Gray
+                    return $null
+                }
             }
-            Write-Host "Is this correct? " -ForegroundColor Red
-            Write-Host $aduser[$choice]
-            $secondChoice = Read-Host -Prompt "Yes or No"
-            if( $secondChoice -eq "y") {
-                return $aduser[$choice]
-            }
-            else {
-                return $null
-            }
-        } else {
+
+        } else { #If $ADUSER
             return $null
         }
 
@@ -64,7 +74,7 @@ While($a -eq $true) {
     $badinput = Read-Host -Prompt "Surname"
     $search = find-aduser $userInput $badinput
     if( $search -eq $null) {
-        Write-Host "FATAL error, restartin script" -ForegroundColor Red
+        Write-Host "FATAL error." -ForegroundColor Red
         $a = $false
     } else {
     $newPassword = createPassword
@@ -74,8 +84,9 @@ While($a -eq $true) {
     Write-Host "Reloading.."   
     }
     if($a -eq $false){
-        $userInput2 = Read-Host -Prompt "Continue?"
+        $userInput2 = Read-Host -Prompt "Restart?"
         if( $userInput2) {
+            cls
             $a = $true
         } else {
             $a = $a
