@@ -1,5 +1,8 @@
 #Import modules used:
+Add-Type -AssemblyName System.Speech
+$SpeechSynth = New-Object System.Speech.Synthesis.SpeechSynthesizer
 cls
+
 Import-Module ActiveDirectory
 Write-Host "Imported modules..." -ForegroundColor Cyan
 #Create a random password:
@@ -16,7 +19,9 @@ function createPassword () {
 #Find the ADUser
 function find-aduser ( [string]$firstName, [string]$lastName ) {
     $storeUser = "$firstName" + "*" + "$lastName"
+
     try{
+        $SpeechSynth.Speak("Fetching USER.")
         $aduser = Get-ADUser -Filter {name -like $storeUser} 
     } Catch {
         $errormsg = $_.Exception.Message
@@ -26,6 +31,7 @@ function find-aduser ( [string]$firstName, [string]$lastName ) {
     if( $aduser -isnot [Microsoft.ActiveDirectory.Management.ADAccount] ) {
         if ( $aduser ) {
             write-host "Multiple users found: " $aduser.length
+            $SpeechSynth.Speak("Found multiple users.")
             for( $i=0; $i -lt $aduser.length ) {
                 Write-Host "                                       "
                 Write-Host "-------------------$i---------------------------------" -ForegroundColor Magenta
@@ -41,7 +47,9 @@ function find-aduser ( [string]$firstName, [string]$lastName ) {
     
             $choice = Read-Host 
             if( $choice -gt $aduser.length ) {
+                $arrayLength = $aduser.length
                 Write-Host "Number greater than array length, please choose a number between 0 and " $aduser.length
+                $SpeechSynth.Speak("Number greater than array length, please choose a number between 0 and $arrayLength ")
                 return
             } else {
                 Write-Host "Is this correct? " -ForegroundColor Red
@@ -75,22 +83,26 @@ While($a -eq $true) {
     $search = find-aduser $userInput $badinput
     if( $search -eq $null) {
         Write-Host "FATAL error." -ForegroundColor Red
+        $SpeechSynth.Speak("fatal error occured, please wait for the system to log the error. Contact system administrator for guidance on how to proceed with this error!")
         $a = $false
     } else {
     $newPassword = createPassword
     Write-Output $search.SAMAccountName "," $newPassword | Out-File "E:\qwee21sd\outTotal.txt" -NoNewline -Append -ErrorAction SilentlyContinue
     $newPassword = ConvertTo-SecureString -String $newPassword.ToString() -AsPlainText -Force -ErrorAction SilentlyContinue 
     Set-AdAccountPassword -Identity $search -Reset -NewPassword $newPassword -ErrorAction SilentlyContinue
-    Write-Host "Reloading.."   
+    Write-Host "Reloading.."
+    $SpeechSynth.Speak("Reloading...")   
     }
     if($a -eq $false){
         $userInput2 = Read-Host -Prompt "Restart?"
+        $SpeechSynth.Speak("Restart?")
         if( $userInput2) {
             cls
             [System.Console]::beep(300, 110)
             $a = $true
         } else {
             [System.Console]::beep(300, 290)
+            $SpeechSynth.Speak("Exiting ...")
             $a = $a
         }
     }
