@@ -94,8 +94,8 @@ While($a -eq $true) {
     $SpeechSynth.Speak("Reloading...")   
     }
     if($a -eq $false){
-        $userInput2 = Read-Host -Prompt "Restart?"
         $SpeechSynth.Speak("Restart?")
+        $userInput2 = Read-Host -Prompt "Restart?"
         if( $userInput2) {
             cls
             [System.Console]::beep(300, 110)
