@@ -78,7 +78,7 @@ While($a -eq $true) {
         $a = $false
     } else {
     $newPassword = createPassword
-    Write-Output $search.SAMAccountName "," $newPassword | Out-File "E:\qwee21sd\outTotal.txt" -NoNewline -Append
+    Write-Output $search.SAMAccountName "," $newPassword | Out-File "E:\qwee21sd\outTotal.txt" -NoNewline -Append -ErrorAction SilentlyContinue
     $newPassword = ConvertTo-SecureString -String $newPassword.ToString() -AsPlainText -Force -ErrorAction SilentlyContinue 
     Set-AdAccountPassword -Identity $search -Reset -NewPassword $newPassword -ErrorAction SilentlyContinue
     Write-Host "Reloading.."   
