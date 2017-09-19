@@ -87,8 +87,10 @@ While($a -eq $true) {
         $userInput2 = Read-Host -Prompt "Restart?"
         if( $userInput2) {
             cls
+            [System.Console]::beep(300, 110)
             $a = $true
         } else {
+            [System.Console]::beep(300, 290)
             $a = $a
         }
     }
