@@ -64,12 +64,22 @@ While($a -eq $true) {
     $badinput = Read-Host -Prompt "Surname"
     $search = find-aduser $userInput $badinput
     if( $search -eq $null) {
-        Invoke-Expression .\findingandsettingAD.ps1 #LAZY AF
-    }
+        Write-Host "FATAL error, restartin script" -ForegroundColor Red
+        $a = $false
+    } else {
     $newPassword = createPassword
     Write-Output $search.SAMAccountName "," $newPassword | Out-File "E:\qwee21sd\outTotal.txt" -NoNewline -Append
     $newPassword = ConvertTo-SecureString -String $newPassword.ToString() -AsPlainText -Force -ErrorAction SilentlyContinue 
     Set-AdAccountPassword -Identity $search -Reset -NewPassword $newPassword -ErrorAction SilentlyContinue
-    Write-Host "Reloading.."
+    Write-Host "Reloading.."   
+    }
+    if($a -eq $false){
+        $userInput2 = Read-Host -Prompt "Continue?"
+        if( $userInput2) {
+            $a = $true
+        } else {
+            $a = $a
+        }
+    }
 }
 
