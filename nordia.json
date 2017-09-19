@@ -1,0 +1,132 @@
+Schema({
+    Basic_statistics:{
+        name:{
+            type: String,
+            required: true
+        },
+        Age:{
+            type: Double,
+            required: true
+        },
+        Class:{
+            type: String,
+            required: false
+        },
+        Race:{
+            type: "race",
+            required: true
+        },
+        sex:{
+            type: String,
+            required: true
+        },
+
+        Physical_character:{
+            Heigth:{
+                type: Double,
+                required: false
+            },
+            Weight:{
+                retard_units:{
+                    type: Double,
+                    required: false
+                },
+                normal_units:{
+                    type: Double,
+                    required: false
+                },
+            },
+            Colors:{
+                Eye:{
+                    type: String,
+                    required: false
+                },
+                Hair:{
+                    type: String,
+                    required: false
+                },
+            },
+            Features:{
+                Scars:{
+                    type: String,
+                    required: false
+                },
+                Markings:{
+                    type: String,
+                    required: false
+                },
+                other_features:{
+                    type: String,
+                    required: false
+                },
+            },
+        },
+        Person_attributes:{
+            Habits:{
+                type: String,
+                required: false 
+            },
+            Hobbies:{
+                type: String,
+                required: false
+            },
+            Speech:{
+                Pattern:{
+                    type: String,
+                    required: false
+                },
+                Dialect:{},
+            },
+            Disabilities:{},
+            Style:{},
+            Greatest_Flaw:{},
+            Best_quality:{},
+        },
+        Background:{
+            Educational:{
+                Location:{
+                },
+            },
+            Hometown:{},
+            History:{},
+        },
+        Mentality:{
+            Mental_illnesses:{},
+            Goals:{
+                short:{},
+                long:{},
+            }
+            confidence:{},
+            Mental_strengths:{},
+            Mental_weakness:{},
+            how_dealing:{
+                Anger:{},
+                Sadness:{},
+                Conflict:{},
+                Loss:{},
+            },
+            Motivations:{},
+            Frights:{},
+        },
+        Spiritual:{
+            Belief:{
+                god:{
+                    patron:{
+                        type: bool,
+                        required: false
+                    },
+                    history_with_god:{
+                        type: String,
+                        required: false
+                    },
+                },
+            },
+            Outsiders:{
+                plane:{},
+                name:{},
+                outsider_id:{}
+            },
+        },
+
+    },
+});
