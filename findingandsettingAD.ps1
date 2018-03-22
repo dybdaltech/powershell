@@ -1,8 +1,11 @@
+#This script was used for one operation where it required to manually set the phone number on certain ADUsers.
+#There is probably better ways to do this, but this is how I ended up doing it
 #Import modules used:
 Clear-Host
 Import-Module ActiveDirectory
 Write-Host "Imported modules..." -ForegroundColor Cyan
 
+#Thanks to github.com/olehag for this function, he might've found it elsewhere though:
 Function Get-StringHash([String] $String,$HashName = "md5")
 {
 $StringBuilder = New-Object System.Text.StringBuilder
@@ -17,7 +20,7 @@ $StringBuilder.ToString()
 function Create-Password () {
     $store = Get-Random -Minimum 1000 -Maximum 9999
     $pass = "NewefwergrgPauilul8iord" + $store.ToString()
-    Write-Output $pass | Out-File "E:\Benjamin\out.txt"
+    Write-Output $pass | Out-File "E:\REDACTED\out.txt"
     return $pass
 }
 
@@ -32,7 +35,8 @@ function find-aduser ( [string]$queryUser) {
     }
     if( $aduser -isnot [Microsoft.ActiveDirectory.Management.ADAccount] ) {
         if ( $aduser ) {
-            write-host "Multiple users found: " $aduser.length
+            #It will always do this:
+            write-host "Multiple users found: " $aduser.length 
             for( $i=0; $i -lt $aduser.length ) {
                 Write-Host "                                       "
                 Write-Host "-------------------$i---------------------------------" -ForegroundColor Magenta
@@ -74,7 +78,7 @@ function find-aduser ( [string]$queryUser) {
 }
 
 
-
+#Start the script:
 
 $a = $true
 Write-Host "`Started AD Management script." -ForegroundColor DarkGray
