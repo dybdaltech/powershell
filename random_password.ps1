@@ -9,23 +9,21 @@ function stringer([int]$lengthOfStr) {
         $number_random_high = Get-Random -Minimum 1 -Maximum 64
         $case_random = Get-Random -Minimum 1 -Maximum 6
         $letter_random = Get-Random -Minimum 1 -Maximum 26
+        $word_random = Get-Random -Minimum 1 -Maximum $word_list.Length
+        $special_random = Get-Random -Minimum 1 -Maximum $special.Length
+        $newRandom = Get-Random -Minimum 1 -Maximum 4
         #START A MESSED UP ALGORITHM
-        if($case_random -eq 1) {
+        if($newRandom -eq 1){
             $password += $alphabet[$letter_random]
-        } elseif ($case_random -eq 2) {
-            $password += $low_alphabet[$letter_random]
-            if($letter_random -lt 10) {
-                $newrand = Get-Random -Minimum 10 -Maximum 26
-                $password += $alphabet[$newrand]
-            }
-        } elseif ($case_random -eq 3) {
-            $spcRandom = Get-Random -Minimum 1 -Maximum 11
-            $password += $special[$spcRandom]
-        }  elseif ($case_random -eq 4) {
-            $list_random = Get-Random -Minimum 1 -Maximum 10
-            $password += $word_list[$list_random]
+        } elseif ($newRandom -eq 2) {
+            $password += $low_Alphabet[$letter_random]
+        } elseif ($newRandom -eq 3) {
+            $password += $word_list[$word_random]
+        } elseif ($newRandom -eq 4) {
+            $password += $special[$special_random]
+        } else {
+            Write-Host "Skip"
         }
-
         $password += $number_random_high
         $i++
     } # END LOOP
@@ -33,11 +31,12 @@ function stringer([int]$lengthOfStr) {
     $arrayLength = $password.length
     $final = ""
     for($j = 0; $j -lt $arrayLength){
-        Write-Host $j
+    #    Write-Host $j
         $j++
     }
-    Write-Host $final
-    Write-Output $final | Out-File C:\Users\bad\OneDrive\powershell\pas.txt -Append
+    Write-Host $password
+    #Write-Host $final
+    #Write-Output $final | Out-File C:\Users\bad\OneDrive\powershell\pas.txt -Append
 }
 
-stringer 24
+stringer 5000
